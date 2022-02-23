@@ -9,4 +9,7 @@ module.exports = {
   env: ENV_VARS,
   publicRuntimeConfig: ENV_VARS,
   poweredByHeader: false,
+  images: {
+    domains: ['cdn.svgporn.com'],
+  },
 }
