@@ -1,6 +1,6 @@
 import create from 'zustand'
 
 export const useServer = create((set) => ({
-  server: {},
+  server: null,
   setServer: (item: any) => set(() => ({ server: item })),
 }))
