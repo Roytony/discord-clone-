@@ -10,6 +10,6 @@ module.exports = {
   publicRuntimeConfig: ENV_VARS,
   poweredByHeader: false,
   images: {
-    domains: ['cdn.svgporn.com'],
+    domains: ['cdn.svgporn.com', 'i.pravatar.cc'],
   },
 }
