@@ -1,17 +1,25 @@
 import React from 'react'
 import Image from 'next/image'
+import { useTopics } from '@src/store/useStore'
 import { BsGearFill, BsSearch } from 'react-icons/bs'
 import Data from '../../../Data/DirectMessages'
+import Topics from '../../../Data/Topics'
 import ChatHeader from './ChatHeader'
 import Avatar from '../Avatar'
 
-const Messaging = () => {
+type MessaginProps = {
+  img: string
+  name: string
+}
+
+const Messaging = ({ img, name }: MessaginProps) => {
+  const setTopics = useTopics((state) => state.setTopics)
   return (
     <div className="min-w-[350px] p-4 border-r border-gray-800 w-full h-screen ">
       <div className="flex  items-center  justify-between">
         <div className="flex items-center space-x-4 ">
-          <Image width={40} height={40} src="https://cdn.svgporn.com/logos/aws-amplify.svg" />
-          <h3 className="text-gray-300 font-bold text-lg">Aws Amplify</h3>
+          <Image width={40} height={40} src={img} />
+          <h3 className="text-gray-300 font-bold text-lg">{name}</h3>
         </div>
         <BsGearFill className="text-gray-300 cursor-pointer text-lg" />
       </div>
@@ -27,9 +35,17 @@ const Messaging = () => {
       <div>
         <h2 className="text-lg text-gray-300 font-bold">Topics</h2>
         <div className="my-4 text-gray-400 leading-8">
-          <p className=" cursor-pointer hover:text-gray-200 hover:font-bold ">Graphql Datastore</p>
-          <p className=" cursor-pointer hover:text-gray-200 hover:font-bold ">Amazon Cognito</p>
-          <p className=" cursor-pointer hover:text-gray-200 hover:font-bold ">Amazon s3</p>
+          {Topics.topics.map((topic) => (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <p
+              onClick={() => setTopics(topic)}
+              onKeyDown={() => setTopics(topic)}
+              key={topic.id}
+              className=" cursor-pointer hover:text-gray-200 hover:font-bold "
+            >
+              {topic.name}
+            </p>
+          ))}
         </div>
       </div>
       {/** Direct Messages */}
