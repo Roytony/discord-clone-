@@ -1,19 +1,31 @@
 import React from 'react'
 import Image from 'next/image'
 import { useTopics } from '@src/store/useStore'
-import { BsGearFill, BsSearch } from 'react-icons/bs'
+import { BsGearFill, BsPlus, BsSearch } from 'react-icons/bs'
 import Data from '../../../Data/DirectMessages'
 import Topics from '../../../Data/Topics'
 import ChatHeader from './ChatHeader'
 import Avatar from '../Avatar'
+import { addDoc, doc, setDoc } from 'firebase/firestore'
+import { db } from '@src/utils/Firebase'
 
 type MessaginProps = {
+  id: string
   img: string
   name: string
 }
 
-const Messaging = ({ img, name }: MessaginProps) => {
+const Messaging = ({ id, img, name }: MessaginProps) => {
   const setTopics = useTopics((state) => state.setTopics)
+
+  const AddTopic = async () => {
+    const name = prompt('Enter topics name')
+    // const ref = doc(db, 'servers', id)
+    // await setDoc(ref, {
+    //   name: name,
+    // })
+  }
+
   return (
     <div className="min-w-[350px] p-4 border-r border-gray-800 w-full h-screen ">
       <div className="flex  items-center  justify-between">
@@ -33,7 +45,13 @@ const Messaging = ({ img, name }: MessaginProps) => {
       </div>
       {/** topics */}
       <div>
-        <h2 className="text-lg text-gray-300 font-bold">Topics</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg text-gray-300 font-bold">Topics</h2>
+          <BsPlus
+            onClick={AddTopic}
+            className="text-2xl hover:scale-110 hover:text-white transition duration-100 ease-out text-gray-300"
+          />
+        </div>
         <div className="my-4 text-gray-400 leading-8">
           {Topics.topics.map((topic) => (
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
