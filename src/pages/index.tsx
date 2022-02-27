@@ -1,29 +1,36 @@
 import React from 'react'
 import { NextPage } from 'next'
-import Sidebar from '@src/components/Sidebar'
-import { useServer, useTopics } from '@src/store/useStore'
-import Messaging from '@src/components/Messaging'
-import Chat from '@src/components/Chat'
+import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import Main from '@src/components/Home'
+import { auth } from '@src/utils/Firebase'
 
 const Home: NextPage = () => {
-  const server = useServer((state) => state.server)
-  const topic = useTopics((state) => state.topis)
-  console.log('topics', topic)
+  const [user] = useAuthState(auth)
+  const [signInWithGoogle] = useSignInWithGoogle(auth)
+
   return (
     <div className="bg-[#181A1E] w-full min-h-screen">
-      <main className="flex">
-        <Sidebar />
-        {!server ? (
-          <div className="grid place-items-center">
-            <h2>Please select a server and start comunicating</h2>
+      {user ? (
+        <Main />
+      ) : (
+        <div className="grid h-screen text-center text-2xl font-bold text-white place-items-center">
+          <div>
+            Please Login To continue
+            <button
+              onClick={() => signInWithGoogle()}
+              type="button"
+              className="px-8 my-4 flex items-center py-4 bg-white  text-black  rounded-md"
+            >
+              <img
+                alt=""
+                className="w-16 h-16 object-contain"
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.bUazsv7bC2pTq1nFHvqg4AHaD4%26pid%3DApi&f=1"
+              />
+              Login With Google
+            </button>
           </div>
-        ) : (
-          <div className="flex">
-            <Messaging img={server?.img} name={server?.name} />
-            {topic ? <Chat topic={topic} /> : null}
-          </div>
-        )}
-      </main>
+        </div>
+      )}
     </div>
   )
 }
