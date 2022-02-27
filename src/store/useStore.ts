@@ -2,7 +2,7 @@ import create from 'zustand'
 
 export const useServer = create((set) => ({
   server: null,
-  setServer: (id, item) =>
+  setServer: (id: String, item: {}) =>
     set(() => ({
       server: {
         id,
@@ -13,5 +13,11 @@ export const useServer = create((set) => ({
 
 export const useTopics = create((set) => ({
   topis: null,
-  setTopics: (item: any) => set(() => ({ topis: item })),
+  setTopics: (id: String, name: String) =>
+    set(() => ({
+      topis: {
+        id,
+        name,
+      },
+    })),
 }))

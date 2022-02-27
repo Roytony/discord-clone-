@@ -53,7 +53,11 @@ const Messaging = ({ id, img, name }: MessaginProps) => {
         <div className="my-4 text-gray-400 leading-8">
           {value?.docs.map((topic) => (
             <li key={topic.id} className=" cursor-pointer hover:text-gray-200 hover:font-bold ">
-              <button type="button" onKeyDown={() => setTopics(topic)} onClick={() => setTopics(topic)}>
+              <button
+                type="button"
+                onKeyDown={() => setTopics(topic.id, topic.data().name)}
+                onClick={() => setTopics(topic.id, topic.data().name)}
+              >
                 {topic.data().name}
               </button>
             </li>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { useServer, useTopics } from '@src/store/useStore'
 import React from 'react'
 import Chat from './Chat'
@@ -7,7 +8,7 @@ import Sidebar from './Sidebar'
 const Home = () => {
   const server = useServer((state) => state.server)
   const topic = useTopics((state) => state.topis)
-  console.log(server)
+  console.log('topic:', topic)
   return (
     <main className="flex">
       <Sidebar />

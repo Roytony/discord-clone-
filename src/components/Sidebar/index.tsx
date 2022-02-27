@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react'
 import { useServer } from '@src/store/useStore'
 import { FaPlus } from 'react-icons/fa'
