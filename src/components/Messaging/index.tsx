@@ -1,13 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import { useTopics } from '@src/store/useStore'
+import { db } from '@src/utils/Firebase'
 import { BsGearFill, BsPlus, BsSearch } from 'react-icons/bs'
+import { addDoc, collection } from 'firebase/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
 import Data from '../../../Data/DirectMessages'
-import Topics from '../../../Data/Topics'
 import ChatHeader from './ChatHeader'
 import Avatar from '../Avatar'
-import { addDoc, doc, setDoc } from 'firebase/firestore'
-import { db } from '@src/utils/Firebase'
 
 type MessaginProps = {
   id: string
@@ -19,18 +19,16 @@ const Messaging = ({ id, img, name }: MessaginProps) => {
   const setTopics = useTopics((state) => state.setTopics)
 
   const AddTopic = async () => {
-    const name = prompt('Enter topics name')
-    // const ref = doc(db, 'servers', id)
-    // await setDoc(ref, {
-    //   name: name,
-    // })
+    const Topicname = prompt('Enter topics name')
+    await addDoc(collection(db, `servers/${id}/topics`), { name: Topicname })
   }
+  const [value] = useCollection(collection(db, `servers/${id}/topics`))
 
   return (
     <div className="min-w-[350px] p-4 border-r border-gray-800 w-full h-screen ">
       <div className="flex  items-center  justify-between">
         <div className="flex items-center space-x-4 ">
-          <Image width={40} height={40} src={img} />
+          {img && <Image width={40} height={40} src={img} />}
           <h3 className="text-gray-300 font-bold text-lg">{name}</h3>
         </div>
         <BsGearFill className="text-gray-300 cursor-pointer text-lg" />
@@ -53,16 +51,12 @@ const Messaging = ({ id, img, name }: MessaginProps) => {
           />
         </div>
         <div className="my-4 text-gray-400 leading-8">
-          {Topics.topics.map((topic) => (
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-            <p
-              onClick={() => setTopics(topic)}
-              onKeyDown={() => setTopics(topic)}
-              key={topic.id}
-              className=" cursor-pointer hover:text-gray-200 hover:font-bold "
-            >
-              {topic.name}
-            </p>
+          {value?.docs.map((topic) => (
+            <li key={topic.id} className=" cursor-pointer hover:text-gray-200 hover:font-bold ">
+              <button type="button" onKeyDown={() => setTopics(topic)} onClick={() => setTopics(topic)}>
+                {topic.data().name}
+              </button>
+            </li>
           ))}
         </div>
       </div>

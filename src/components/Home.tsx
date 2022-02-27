@@ -7,6 +7,7 @@ import Sidebar from './Sidebar'
 const Home = () => {
   const server = useServer((state) => state.server)
   const topic = useTopics((state) => state.topis)
+  console.log(server)
   return (
     <main className="flex">
       <Sidebar />
@@ -16,7 +17,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="flex">
-          <Messaging img={server?.img} name={server?.name} />
+          <Messaging id={server?.id} img={server?.item.img} name={server?.item.name} />
           {topic ? <Chat topic={topic} /> : null}
         </div>
       )}
