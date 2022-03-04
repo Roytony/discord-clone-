@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { useTopics } from '@src/store/useStore'
 import { db } from '@src/utils/Firebase'
 import { BsGearFill, BsPlus, BsSearch } from 'react-icons/bs'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, query, where } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Data from '../../../Data/DirectMessages'
 import ChatHeader from './ChatHeader'
@@ -16,13 +16,14 @@ type MessaginProps = {
 }
 
 const Messaging = ({ id, img, name }: MessaginProps) => {
+  const [serachTerm, setSearchTerm] = useState('')
   const setTopics = useTopics((state) => state.setTopics)
 
   const AddTopic = async () => {
     const Topicname = prompt('Enter topics name')
     await addDoc(collection(db, `servers/${id}/topics`), { name: Topicname })
   }
-  const [value] = useCollection(collection(db, `servers/${id}/topics`))
+  const [value, loading] = useCollection(collection(db, `servers/${id}/topics`))
 
   return (
     <div className="min-w-[350px] p-4 border-r border-gray-800 w-full h-screen ">
@@ -36,6 +37,7 @@ const Messaging = ({ id, img, name }: MessaginProps) => {
       <div className="flex bg-[#121617] p-4 rounded-xl items-center my-4">
         <input
           spellCheck={false}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="bg-[#121617] w-full focus:outline-none text-gray-300 font-bold"
           placeholder="search..."
         />
@@ -62,6 +64,7 @@ const Messaging = ({ id, img, name }: MessaginProps) => {
               </button>
             </li>
           ))}
+          {loading && <div className="text-xl text-white">Loading...</div>}
         </div>
       </div>
       {/** Direct Messages */}

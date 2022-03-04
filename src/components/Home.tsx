@@ -8,7 +8,6 @@ import Sidebar from './Sidebar'
 const Home = () => {
   const server = useServer((state) => state.server)
   const topic = useTopics((state) => state.topis)
-  console.log('topic:', topic)
   return (
     <main className="flex">
       <Sidebar />

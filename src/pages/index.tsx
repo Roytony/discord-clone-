@@ -1,12 +1,12 @@
 import React from 'react'
 import { NextPage } from 'next'
-import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import Main from '@src/components/Home'
 import { auth } from '@src/utils/Firebase'
+import SignInWithGoogle from '@src/utils/SignInWithGoogle'
 
 const Home: NextPage = () => {
   const [user] = useAuthState(auth)
-  const [signInWithGoogle] = useSignInWithGoogle(auth)
 
   return (
     <div className="bg-[#181A1E] w-full min-h-screen">
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
           <div>
             Please Login To continue
             <button
-              onClick={() => signInWithGoogle()}
+              onClick={() => SignInWithGoogle(auth)}
               type="button"
               className="px-8 my-4 flex items-center py-4 bg-white  text-black  rounded-md"
             >

@@ -21,3 +21,16 @@ export const useTopics = create((set) => ({
       },
     })),
 }))
+
+// export const useUser = create((set) => ({
+//   user: null,
+//   login: (user) =>
+//     set(() => ({
+//       user: {
+//         name: user.displayName,
+//         email: user.email,
+//         uid: user.uid,
+//         photoURL: user.photoURL,
+//       },
+//     })),
+// }))
