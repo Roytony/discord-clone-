@@ -15,7 +15,7 @@ type ChatProps = {
 const Chat = ({ topic }: ChatProps) => {
   const [msg, setMsg] = useState('')
 
-  const InputSubmit = async (e) => {
+  const InputSubmit = async () => {
     await addDoc(collection(db, `topics/${topic.id}/messages`), {
       msg,
       user: '1',
